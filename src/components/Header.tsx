@@ -9,9 +9,7 @@ const Header = () => {
   return (
     <header className="absolute top-0 left-0 right-0 z-50">
       <div className="container mx-auto flex items-center justify-between py-5 px-4">
-        <a href="#" className="text-2xl font-bold text-primary-foreground tracking-wide">
-          Eclipse
-        </a>
+        
         
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
