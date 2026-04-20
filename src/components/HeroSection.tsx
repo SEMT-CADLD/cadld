@@ -2,8 +2,8 @@ import heroIllustration from "@/assets/hero-illustration.png";
 import { useState } from "react";
 
 const HeroSection = () => {
-  const [headlineLine1, setHeadlineLine1] = useState("Take the first step");
-  const [headlineLine2, setHeadlineLine2] = useState("to learn with us");
+  const [headlineLine1, setHeadlineLine1] = useState("Trusted Advisor for");
+  const [headlineLine2, setHeadlineLine2] = useState("Learning Development Programs");
   return (
     <section className="relative bg-hero-gradient min-h-[90vh] flex items-center overflow-hidden">
       {/* Decorative circles */}
