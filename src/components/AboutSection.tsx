@@ -6,7 +6,7 @@ const AboutSection = () => {
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <div>
-            <span className="font-semibold uppercase tracking-widest mb-4 block text-lg text-[#2576da]">
+            <span className="font-semibold uppercase tracking-widest mb-4 block text-[#2576da] text-2xl font-sans">
               About Us
             </span>
             <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight text-[#0c3e83]">
