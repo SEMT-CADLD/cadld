@@ -1,0 +1,134 @@
+import { useEffect, useMemo, useState } from "react";
+import { Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
+
+const LAUNCH_DATE = new Date();
+LAUNCH_DATE.setDate(LAUNCH_DATE.getDate() + 30);
+
+const getTimeLeft = () => {
+  const diff = LAUNCH_DATE.getTime() - Date.now();
+  const clamp = Math.max(diff, 0);
+  return {
+    days: Math.floor(clamp / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((clamp / (1000 * 60 * 60)) % 24),
+    minutes: Math.floor((clamp / (1000 * 60)) % 60),
+    seconds: Math.floor((clamp / 1000) % 60),
+  };
+};
+
+const ComingSoon = () => {
+  const [timeLeft, setTimeLeft] = useState(getTimeLeft());
+  const [email, setEmail] = useState("");
+  const { toast } = useToast();
+
+  useEffect(() => {
+    document.title = "Coming Soon | Concepts and Design Learning Development";
+    const meta = document.querySelector('meta[name="description"]');
+    const desc = "We're launching soon. Sign up to be notified when our learning platform goes live.";
+    if (meta) {
+      meta.setAttribute("content", desc);
+    } else {
+      const tag = document.createElement("meta");
+      tag.name = "description";
+      tag.content = desc;
+      document.head.appendChild(tag);
+    }
+  }, []);
+
+  useEffect(() => {
+    const id = setInterval(() => setTimeLeft(getTimeLeft()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const units = useMemo(
+    () => [
+      { label: "Days", value: timeLeft.days },
+      { label: "Hours", value: timeLeft.hours },
+      { label: "Minutes", value: timeLeft.minutes },
+      { label: "Seconds", value: timeLeft.seconds },
+    ],
+    [timeLeft],
+  );
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    toast({
+      title: "You're on the list!",
+      description: "We'll email you the moment we launch.",
+    });
+    setEmail("");
+  };
+
+  return (
+    <main className="relative min-h-screen overflow-hidden bg-hero-gradient flex items-center justify-center px-4 py-16">
+      {/* Decorative circles */}
+      <div className="absolute top-20 left-20 w-16 h-16 rounded-full border-2 border-primary-foreground/10" />
+      <div className="absolute top-40 right-40 w-8 h-8 rounded-full bg-primary-foreground/10" />
+      <div className="absolute bottom-40 left-1/3 w-12 h-12 rounded-full border-2 border-primary-foreground/10" />
+      <div className="absolute top-32 right-1/4 w-6 h-6 rounded-full bg-primary-foreground/15" />
+      <div className="absolute bottom-20 right-20 w-20 h-20 rounded-full border-2 border-primary-foreground/10" />
+
+      <div className="relative z-10 w-full max-w-3xl text-center animate-fade-in-up">
+        <p className="uppercase tracking-[0.3em] text-sm md:text-base font-semibold text-primary-foreground/80 mb-6">
+          Concepts and Design Learning Development
+        </p>
+
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-sans font-semibold leading-tight text-primary-foreground mb-6">
+          Coming Soon
+        </h1>
+
+        <p className="text-lg md:text-2xl font-medium text-primary-foreground/90 max-w-xl mx-auto mb-12">
+          We're crafting something exceptional. Our new learning experience launches shortly.
+        </p>
+
+        {/* Countdown */}
+        <div className="grid grid-cols-4 gap-3 md:gap-6 max-w-2xl mx-auto mb-12">
+          {units.map((unit) => (
+            <div
+              key={unit.label}
+              className="rounded-xl bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/15 py-4 md:py-6"
+            >
+              <div className="text-3xl md:text-5xl font-bold text-primary-foreground tabular-nums">
+                {String(unit.value).padStart(2, "0")}
+              </div>
+              <div className="mt-1 text-xs md:text-sm uppercase tracking-wider text-primary-foreground/70">
+                {unit.label}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Email signup */}
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+        >
+          <div className="relative flex-1">
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              type="email"
+              required
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="pl-10 h-12 bg-background"
+              aria-label="Email address"
+            />
+          </div>
+          <Button type="submit" size="lg" className="h-12">
+            Notify Me
+          </Button>
+        </form>
+
+        <p className="mt-10 text-sm text-primary-foreground/60">
+          © {new Date().getFullYear()} Concepts and Design Learning Development
+        </p>
+      </div>
+    </main>
+  );
+};
+
+export default ComingSoon;
