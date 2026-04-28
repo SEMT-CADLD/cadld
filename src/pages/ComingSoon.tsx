@@ -64,7 +64,7 @@ const ComingSoon = () => {
             // Temporarily hidden — re-enable by setting hidden: false
             { Icon: Facebook, label: "Facebook", href: "#", hidden: true },
             { Icon: Instagram, label: "Instagram", href: "#", hidden: true },
-            { Icon: Linkedin, label: "LinkedIn", href: "#", hidden: false },
+            { Icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/company/conceptsanddesign", hidden: false },
             { Icon: Youtube, label: "YouTube", href: "#", hidden: true },
           ].filter(({ hidden }) => !hidden).map(({ Icon, label, href }) => (
             <a
